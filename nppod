@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: nppod
+  labels:
+    app: nppod
+    env: devops
+spec:
+  containers:
+    - name: nginx-nppod
+      image: nginx:latest
+      ports:
+        - name: npgnx-port
+          containerPort: 80
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: npngnx-svc
+  labels:
+    app: nppod
+spec:
+  type: Nodeport
+  selector:
+    app: nppod
+    ports:
+    - name: npngnx-svc
+      protocol: TCP
+      port: 80
+      targetPort: 80
