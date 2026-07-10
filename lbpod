@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: lbpod
+  labels:
+    app: lbapp
+spec:
+  containers:
+    - name: lbnginx
+      image: nginx:latest
+      ports:
+        - containerPort: 80
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: lbsvc
+spec:
+  type: LoadBalancer
+  selector: 
+    app: lbapp
+
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80

@@ -21,7 +21,7 @@ metadata:
   labels:
     app: nppod
 spec:
-  type: Nodeport
+  type: NodePort
   selector:
     app: nppod
   ports:
