@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-statefulset
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: my-temp
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql:8.0
+          ports:
+            - name: mysql-port
+              containerPort: 3306 
+          env:
+            - name: MYSQL_USER
+              value: admin
+            - name: MYSQL_PASSWORD
+              value: studentapp
+            - name: MYSQL_ROOT_PASSWORD
+              value: root
