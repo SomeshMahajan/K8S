@@ -36,7 +36,12 @@ metadata:
   name: deploy-svc
   labels:
     app: myapp
+spec:
+  clusterIP: None
+  selector:
+    app: myapp
   ports:
-    - name: svc-port
-      port: 3306
-      targetPort: 3306
+  - name: svc-port
+    protocol: TCP
+    port: 3306
+    targetPort: 3306
