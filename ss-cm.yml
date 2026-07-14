@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-statefulset
+  labels:
+    app: myapp
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      name: my-temp
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: mysql-container
+          image: mysql:8.0
+          ports:
+            - name: mysql-port
+              containerPort: 3306 
+          env:
+            - name: MYSQL_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: mysql_user
+            - name: MYSQL_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: mysql_password
+            - name: MYSQL_ROOT_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: mysql_root_password
+            - name: MYSQL_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: my-config
+                  key: mysql_database
+...
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: deploy-svc
+  labels:
+    app: myapp
+  ports:
+    - name: svc-port
+      port: 3306
+      targetPort: 3306
