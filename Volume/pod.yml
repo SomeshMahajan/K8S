@@ -3,19 +3,17 @@ kind: Pod
 metadata:
   name: my-pod
   labels:
-    app: mypod
-    labels:
-      app: myapp
+    app: myapp
 spec:
   volumes:
     - name: my-vol
       persistentVolumeClaim:
         claimName: my-pvc
-  congtainers:
+  containers:
     - name: nginx-cont
       image: nginx:latest
       ports:
-        containerPort: 80
+      - containerPort: 80
       volumeMounts:
         - name: my-vol
           mountPath: /usr/share/nginx/html
