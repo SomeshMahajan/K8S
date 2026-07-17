@@ -1,0 +1,35 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nginx-ingress
+  namespace: default  # Always best practice to explicitly state your namespace
+  annotations:
+    # Removed rewrite-target so sub-paths (like /mobile/v2) pass through correctly
+    nginx.ingress.kubernetes.io/ssl-redirect: "false" 
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: stairstocloud.space  # Map your real domain name here, not the ELB address
+    http:
+      paths:
+      - path: /mobile
+        pathType: Prefix
+        backend:
+          service:
+            name: my-svc-mobile
+            port:
+              number: 80
+      - path: /laptop
+        pathType: Prefix
+        backend:
+          service:
+            name: my-svc-laptop
+            port:
+              number: 8080
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: my-svc-home
+            port:
+              number: 80
